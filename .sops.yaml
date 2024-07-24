@@ -1,0 +1,6 @@
+creation_rules:
+  - path_regex: '.*\.env\.secrets$'
+    encrypted_regex: '^(SECRET_KEY|API_KEY|DATABASE_PASSWORD)$'
+    key_groups:
+      - pgp:
+          - DB353199834A6BBD4800D7D66616CC80D773B775
