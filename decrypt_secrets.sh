@@ -4,7 +4,10 @@ read -sp "Enter password: " password
 echo
 
 while IFS= read -r line; do
-  if [[ "$line" == *"=ENC["* ]]; then
+  if [[ "$line" == \#* ]]; then
+    # Preserve comments as they are
+    echo "$line"
+  elif [[ "$line" == *"=ENC["* ]]; then
     name="${line%%=ENC[*}"
     encrypted_value="${line#*=ENC[}"
     encrypted_value="${encrypted_value%]}"

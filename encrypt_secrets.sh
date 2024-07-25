@@ -4,10 +4,13 @@ read -sp "Enter password: " password
 echo
 
 while IFS= read -r line; do
-  if [[ "$line" == *"="* ]]; then
+  if [[ "$line" == \#* ]]; then
+    # Preserve comments as they are
+    echo "$line"
+  elif [[ "$line" == *"="* ]]; then
     name="${line%%=*}"
     value="${line#*=}"
-    # Remove the -salt option to ensure deterministic encryption and base64 encode the result
+    # Encrypt the value without a salt for deterministic encryption and base64 encode the result
     encrypted_value=$(echo -n "$value" | openssl enc -aes-256-cbc -a -nosalt -pbkdf2 -pass pass:"$password" | tr -d '\n')
     echo "$name=ENC[$encrypted_value]"
   else
