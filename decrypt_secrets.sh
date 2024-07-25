@@ -8,8 +8,8 @@ while IFS= read -r line; do
     name="${line%%=ENC[*}"
     encrypted_value="${line#*=ENC[}"
     encrypted_value="${encrypted_value%]}"
-    # Remove the -salt option to match the encryption process
-    decrypted_value=$(echo -n "$encrypted_value" | openssl enc -aes-256-cbc -a -d -pbkdf2 -nosalt -pass pass:"$password")
+    # Decode the base64 value before decrypting
+    decrypted_value=$(echo -n "$encrypted_value" | base64 -d | openssl enc -aes-256-cbc -d -pbkdf2 -nosalt -pass pass:"$password")
     echo "$name=$decrypted_value"
   else
     echo "$line"

@@ -7,8 +7,8 @@ while IFS= read -r line; do
   if [[ "$line" == *"="* ]]; then
     name="${line%%=*}"
     value="${line#*=}"
-    # Remove the -salt option to ensure deterministic encryption
-    encrypted_value=$(echo -n "$value" | openssl enc -aes-256-cbc -a -pbkdf2 -nosalt -pass pass:"$password")
+    # Remove the -salt option to ensure deterministic encryption and base64 encode the result
+    encrypted_value=$(echo -n "$value" | openssl enc -aes-256-cbc -a -nosalt -pbkdf2 -pass pass:"$password" | tr -d '\n')
     echo "$name=ENC[$encrypted_value]"
   else
     echo "$line"
