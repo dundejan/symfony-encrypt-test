@@ -1,3 +1,4 @@
 .env.secrets
 private_key.asc
 public_key.asc
+.idea
